@@ -19,7 +19,7 @@ const MIME_TYPES = {
 const server = http.createServer((req, res) => {
   // Handle the root path
   let filePath = req.url === '/' 
-    ? path.join(__dirname, 'rainbow-button.html') 
+    ? path.join(__dirname, 'main.html') 
     : path.join(__dirname, req.url);
   
   // Get the file extension
@@ -33,7 +33,7 @@ const server = http.createServer((req, res) => {
     if (err) {
       if (err.code === 'ENOENT') {
         // Page not found
-        fs.readFile(path.join(__dirname, 'rainbow-button.html'), (err, content) => {
+        fs.readFile(path.join(__dirname, 'main.html'), (err, content) => {
           if (err) {
             res.writeHead(500);
             res.end('Error loading the default page');

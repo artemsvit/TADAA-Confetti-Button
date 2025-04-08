@@ -2,10 +2,135 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=rainbow-button.html">
-    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TADAA Confetti Button</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .rainbow-button {
+            position: relative;
+            padding: 20px 40px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .rainbow-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(115deg, 
+                #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+            background-size: 50% 100%;
+            animation: rainbow 4s linear infinite;
+            z-index: -1;
+        }
+
+        .rainbow-button:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background-color: #1a1a1a;
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+
+        .rainbow-button:hover:after {
+            opacity: 0.8;
+        }
+
+        .rainbow-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .rainbow-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes rainbow {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+    <!-- Import js-confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 </head>
 <body>
-    <p>If you are not redirected automatically, <a href="rainbow-button.html">click here</a>.</p>
+    <button class="rainbow-button">TADAA</button>
+
+    <script>
+        // Initialize js-confetti
+        const jsConfetti = new JSConfetti();
+        
+        // Get the button element
+        const button = document.querySelector('.rainbow-button');
+        
+        // Custom night-themed confetti colors
+        const nightColors = [
+            '#5D3FD3', // Purple (night sky)
+            '#191970', // Midnight Blue
+            '#000080', // Navy
+            '#FFF8DC', // Stars
+            '#E6E6FA', // Lavender
+            '#87CEEB'  // Sky Blue
+        ];
+        
+        // Custom shapes for night theme
+        const customShapes = [
+            { type: 'svg', src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><polygon fill="%23FFD700" points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>', weight: 20 }, // Star
+            { type: 'svg', src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23E0E0E0" d="M12,2A9,9,0,1,0,21,11,9,9,0,0,0,12,2Z"/></svg>', weight: 20 }, // Moon
+            { type: 'circle', weight: 30 }, // Regular confetti
+            { type: 'rect', weight: 30 }    // Regular confetti
+        ]
+        
+        // Add click event listener to the button
+        button.addEventListener('click', () => {
+            // Add a subtle click effect
+            button.classList.add('clicked');
+            setTimeout(() => {
+                button.classList.remove('clicked');
+            }, 300);
+            
+            // Create night-themed confetti explosion
+            jsConfetti.addConfetti({
+                confettiColors: nightColors,
+                confettiRadius: 5,
+                confettiNumber: 300,
+            });
+            
+            // Add a second burst with stars-only effect after a short delay
+            setTimeout(() => {
+                jsConfetti.addConfetti({
+                    emojis: ['💩', '💩', '💩', '💩', '💩'],
+                    emojiSize: 80,
+                    confettiNumber: 40,
+                });
+            }, 250);
+        });
+    </script>
 </body>
 </html>
